@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Incorrect Payout - Horn Bet Dealer Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#95d4b3", "primary-container": "#00452e", "on-primary": "#003824", secondary: "#e9c349", background: "#131313", surface: "#131313", "surface-container": "#201f1f", outline: "#8b938d", "outline-variant": "#414844", "on-surface": "#e5e2e1", "on-surface-variant": "#c1c8c2", "emerald-accent": "#10b981", "table-green": "#062a1a", "tertiary-fixed": "#ffdad8", "primary-fixed-dim": "#95d4b3", "on-secondary-container": "#342800", "surface-bright": "#393939", "surface-container-high": "#2a2a2a", "on-tertiary-fixed": "#410007", "secondary-container": "#af8d11", "on-tertiary-fixed-variant": "#861f25", "inverse-on-surface": "#313030", "on-tertiary": "#660412", "on-primary-container": "#76b394", "primary-fixed": "#b1f0ce", "error-container": "#93000a", "surface-container-highest": "#353534", "surface-tint": "#95d4b3", "on-secondary-fixed": "#241a00", "on-tertiary-container": "#ff807f", "on-error": "#690005", error: "#ffb4ab", "tertiary-fixed-dim": "#ffb3b0", "on-primary-fixed-variant": "#0e5138", "on-error-container": "#ffdad6", "surface-dim": "#131313", "inverse-surface": "#e5e2e1", "secondary-fixed-dim": "#e9c349", "on-secondary-fixed-variant": "#574500", tertiary: "#ffb3b0", "secondary-fixed": "#ffe088", "surface-container-lowest": "#0e0e0e", "inverse-primary": "#2c694e", "on-primary-fixed": "#002114", "surface-container-low": "#1c1b1b", "surface-variant": "#353534", "on-secondary": "#3c2f00", "on-background": "#e5e2e1", "tertiary-container": "#77131c"}, fontFamily: {headline: ["Manrope"], body: ["Manrope"], label: ["Inter"], display: "Manrope"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}}}};</script>
+<style class="dice-shadow-style">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .dice-dot {
+            width: 4px;
+            height: 4px;
+            background-color: #000;
+            border-radius: 50%;
+        }
+        .dice-face {
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            border-radius: 4px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            padding: 3px;
+            align-items: center;
+            justify-items: center;
+        }
+        .dice-shadow {
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4));
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen selection:bg-primary/30 pb-12">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 border-b border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-emerald-300">school</span>
+<h1 class="text-xl font-black text-emerald-300 tracking-tighter uppercase font-manrope">Velvet Vault</h1>
+</div>
+<div class="flex items-center gap-3">
+<div class="px-4 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20">
+<span class="text-emerald-300 font-bold text-sm tracking-tight">Score: 0/1</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-emerald-900/50 border border-emerald-300/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-emerald-300 text-sm">person</span>
+</div>
+</div>
+</header>
+<main class="pt-24 px-4 max-w-lg mx-auto space-y-6">
+<!-- Scenario Header -->
+<section class="text-center space-y-1">
+<p class="font-label text-red-400 uppercase tracking-[0.2em] text-[10px] font-bold">Review Needed</p>
+<h2 class="font-headline font-extrabold text-2xl tracking-tight text-on-surface">Incorrect Payout</h2>
+</section>
+<!-- Dice Roll Section -->
+<section class="relative">
+<div class="font-label text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-2 px-1">
+                DICE ROLL
+            </div>
+<div class="bg-surface-container/50 rounded-2xl p-5 flex items-center justify-between border border-white/5 relative overflow-hidden">
+<div class="flex gap-4">
+<!-- Dice 1 -->
+<div class="w-14 h-14 bg-white rounded-xl rotate-[-6deg] flex items-center justify-center dice-shadow border-b-4 border-gray-300">
+<div class="flex gap-3">
+<div class="w-2.5 h-2.5 bg-black rounded-full"></div>
+<div class="w-2.5 h-2.5 bg-black rounded-full"></div>
+</div>
+</div>
+<!-- Dice 2 -->
+<div class="w-14 h-14 bg-white rounded-xl rotate-[8deg] flex items-center justify-center dice-shadow border-b-4 border-gray-300">
+<div class="relative w-full h-full p-2.5">
+<div class="w-2.5 h-2.5 bg-black rounded-full absolute top-2.5 left-2.5"></div>
+<div class="w-2.5 h-2.5 bg-black rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+<div class="w-2.5 h-2.5 bg-black rounded-full absolute bottom-2.5 right-2.5"></div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-4xl font-black font-headline text-primary tracking-tighter">5</div>
+<div class="text-[10px] font-label font-bold text-on-surface-variant uppercase">Ace-Deuce</div>
+</div>
+</div>
+</section>
+<!-- Payout Breakdown Grid (Correct breakdown preserved for training) -->
+<div class="bg-table-green rounded-xl border-2 border-emerald-900 shadow-2xl overflow-hidden font-headline">
+<!-- ANY SEVEN -->
+<div class="border-b border-primary/20 p-4 bg-emerald-950/20 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="text-red-500 font-black text-xl tracking-tighter uppercase opacity-40">Any Seven</span>
+<div class="bg-red-900/20 text-red-500 font-extrabold text-[10px] px-3 py-0.5 rounded-full border border-red-500/30">Lose $5</div>
+</div>
+<span class="text-on-surface/40 font-bold text-sm">4 TO 1</span>
+</div>
+<!-- HORN HIGH Label -->
+<div class="bg-emerald-900/30 border-b border-primary/20 py-2 text-center">
+<h3 class="text-emerald-300 font-black text-[10px] tracking-[0.3em] uppercase">Horn High Breakdown</h3>
+</div>
+<!-- Horn High Chips - Results -->
+<div class="grid grid-cols-4 border-b border-primary/20 bg-emerald-950/10">
+<div class="border-r border-primary/20 p-2 flex flex-col items-center gap-1">
+<span class="text-[8px] text-primary/60 uppercase font-bold">Hi 2</span>
+<div class="text-red-500 font-extrabold text-[9px] px-2 py-0.5">Lose $5</div>
+</div>
+<div class="border-r border-primary/20 p-2 flex flex-col items-center gap-1 bg-emerald-500/10">
+<span class="text-[8px] text-emerald-300 uppercase font-bold">Hi 3</span>
+<div class="bg-secondary text-black font-extrabold text-[9px] px-2 py-0.5 rounded-full shadow-[0_0_8px_rgba(233,195,73,0.3)]">Pays $30</div>
+</div>
+<div class="border-r border-primary/20 p-2 flex flex-col items-center gap-1">
+<span class="text-[8px] text-primary/60 uppercase font-bold">Hi 11</span>
+<div class="text-red-500 font-extrabold text-[9px] px-2 py-0.5">Lose $5</div>
+</div>
+<div class="p-2 flex flex-col items-center gap-1">
+<span class="text-[8px] text-primary/60 uppercase font-bold">Hi 12</span>
+<div class="text-red-500 font-extrabold text-[9px] px-2 py-0.5">Lose $100</div>
+</div>
+</div>
+<!-- Main Horn Grid Results -->
+<div class="relative">
+<div class="grid grid-cols-2 grid-rows-2">
+<!-- Aces (2) -->
+<div class="border-r border-b border-primary/20 p-4 flex flex-col items-center justify-center gap-2 opacity-50">
+<div class="flex gap-1">
+<div class="dice-face"><div class="dice-dot col-start-2 row-start-2"></div></div>
+<div class="dice-face"><div class="dice-dot col-start-2 row-start-2"></div></div>
+</div>
+<div class="text-red-500 font-extrabold text-[10px]">Lose $25</div>
+</div>
+<!-- Midnight (12) -->
+<div class="border-b border-primary/20 p-4 flex flex-col items-center justify-center gap-2 opacity-50">
+<div class="flex gap-1">
+<div class="dice-face"><div class="dice-dot col-start-1 row-start-1"></div><div class="dice-dot col-start-1 row-start-2"></div><div class="dice-dot col-start-1 row-start-3"></div><div class="dice-dot col-start-3 row-start-1"></div><div class="dice-dot col-start-3 row-start-2"></div><div class="dice-dot col-start-3 row-start-3"></div></div>
+<div class="dice-face"><div class="dice-dot col-start-1 row-start-1"></div><div class="dice-dot col-start-1 row-start-2"></div><div class="dice-dot col-start-1 row-start-3"></div><div class="dice-dot col-start-3 row-start-1"></div><div class="dice-dot col-start-3 row-start-2"></div><div class="dice-dot col-start-3 row-start-3"></div></div>
+</div>
+<div class="text-red-500 font-extrabold text-[10px]">Lose $25</div>
+</div>
+<!-- Ace-Deuce (3) - WINNER -->
+<div class="border-r border-primary/20 p-4 flex flex-col items-center justify-center gap-2 bg-emerald-500/10">
+<div class="bg-emerald-400 text-emerald-950 font-extrabold text-sm px-4 py-1 rounded-full shadow-[0_0_12px_rgba(52,211,153,0.3)] border border-emerald-300">Pays $375</div>
+<div class="flex gap-1">
+<div class="dice-face"><div class="dice-dot col-start-2 row-start-2"></div></div>
+<div class="dice-face"><div class="dice-dot col-start-1 row-start-1"></div><div class="dice-dot col-start-3 row-start-3"></div></div>
+</div>
+<span class="text-emerald-400 text-[9px] font-bold uppercase">Winner: 15 to 1</span>
+</div>
+<!-- Yo (11) -->
+<div class="p-4 flex flex-col items-center justify-center gap-2 opacity-50">
+<div class="text-red-500 font-extrabold text-[10px]">Lose $25</div>
+<div class="flex gap-1">
+<div class="dice-face"><div class="dice-dot col-start-1 row-start-1"></div><div class="dice-dot col-start-1 row-start-3"></div><div class="dice-dot col-start-2 row-start-2"></div><div class="dice-dot col-start-3 row-start-1"></div><div class="dice-dot col-start-3 row-start-3"></div></div>
+<div class="dice-face"><div class="dice-dot col-start-1 row-start-1"></div><div class="dice-dot col-start-1 row-start-2"></div><div class="dice-dot col-start-1 row-start-3"></div><div class="dice-dot col-start-3 row-start-1"></div><div class="dice-dot col-start-3 row-start-2"></div><div class="dice-dot col-start-3 row-start-3"></div></div>
+</div>
+</div>
+</div>
+<!-- Center Horn Hub -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-400 border border-emerald-300 py-1 px-4 z-20 shadow-[0_0_15px_rgba(52,211,153,0.4)] min-w-[100px] flex flex-col items-center gap-0 rounded-full">
+<span class="text-[7px] font-black leading-none text-emerald-950 uppercase tracking-tighter">Horn Total</span>
+<span class="text-emerald-950 font-black text-[11px] leading-tight">Pays $375</span>
+</div>
+</div>
+<!-- ANY CRAPS -->
+<div class="border-t border-primary/20 p-4 bg-emerald-500/10 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="text-emerald-400 font-black text-xl tracking-tighter uppercase">Any Craps</span>
+<div class="bg-emerald-400 text-emerald-950 font-extrabold text-[10px] px-3 py-0.5 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.3)] border border-emerald-300">Pays $75</div>
+</div>
+<span class="text-emerald-400 font-bold text-sm">7 ½ TO 1</span>
+</div>
+</div>
+<!-- Payout Input Area - Incorrect State -->
+<section class="space-y-4">
+<div class="bg-surface-container rounded-2xl p-6 shadow-xl border border-red-500/30 space-y-4">
+<div class="space-y-3">
+<div class="flex justify-between items-end px-1">
+<label class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Total Payout Review</label>
+<div class="flex items-center gap-1 text-red-500">
+<span class="material-symbols-outlined text-base">error</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Incorrect</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="w-full bg-red-950/20 border-2 border-red-500/30 rounded-xl py-3 px-5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="text-2xl font-black text-red-400/50 line-through tracking-tight">$450</span>
+<span class="text-[10px] font-bold text-red-400/50 uppercase tracking-tight">Your Entry</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[8px] font-bold text-emerald-400 uppercase tracking-widest leading-none mb-1">Correct Total</span>
+<span class="text-3xl font-black text-emerald-400 tracking-tighter">$475</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center pt-2">
+<button class="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-on-primary font-bold text-base uppercase tracking-[0.15em] shadow-lg active:scale-[0.97] transition-all flex items-center justify-center gap-2">
+                        Start New Drill
+                        <span class="material-symbols-outlined text-xl">refresh</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</body></html>
