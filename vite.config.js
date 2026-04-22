@@ -10,6 +10,7 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  base: '/craps/',
   server: {
       watch: {
           usePolling: true
