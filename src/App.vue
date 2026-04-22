@@ -2,7 +2,7 @@
     <div class="view-container">
         <DiceRoll :die1="currentRoll.d1" :die2="currentRoll.d2" />
 
-        <HornBetLayout :bets="currentBets" />
+        <HornBetLayout id="layout" :bets="currentBets" />
 
         <PayoutSubmitArea
             @submit="onSubmit"
@@ -70,7 +70,7 @@ body {
     background-size: 24px 24px;
     color: #e5e2e1;
     font-family: "Manrope", sans-serif;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 #app {
@@ -80,6 +80,10 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+#layout {
+    min-height: 500px;
 }
 
 .view-container {
