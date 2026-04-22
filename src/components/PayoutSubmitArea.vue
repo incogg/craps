@@ -1,158 +1,224 @@
 <template>
-    <section class="payout-container">
+    <section class="payout-container" :class="`state-${status}`">
         <div class="payout-card">
-            <div class="input-section">
-                <label class="payout-label">Total Payout</label>
-
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <span class="currency-symbol">$</span>
-                        <input
-                            type="text"
-                            inputmode="numeric"
-                            class="payout-input"
-                            v-model.number="displayValue"
-                            @input="displayValue = $event.target.value.replace( /\D/g, '', )"
-                            placeholder="0"
-                        />
-                    </div>
+            <div class="payout-header">
+                <span class="payout-label">Total Payout</span>
+                <div v-if="status !== 'normal'" class="payout-status">
+                    <span class="payout-status__icon material-symbols-outlined">{{ statusIcon }}</span>
+                    <span>{{ status }}</span>
                 </div>
             </div>
 
-            <button class="submit-btn" @click="submitTotal">
-                <span>Submit Total</span>
-                <span class="material-symbols-outlined submit-icon">arrow_forward</span>
+            <div class="payout-box" :class="`payout-box--${status}`">
+                <template v-if="status === 'normal'">
+                    <span class="payout-value">$</span>
+                    <input
+                        type="text"
+                        inputmode="numeric"
+                        class="payout-input payout-value"
+                        placeholder="0"
+                        v-model="displayValue"
+                        @input="displayValue = $event.target.value.replace(/\D/g, '')"
+                        ref="inputRef"
+                    />
+                </template>
+
+                <template v-else-if="status === 'correct'">
+                    <span class="payout-value payout-value--correct">${{ displayValue || '0' }}</span>
+                </template>
+
+                <template v-else>
+                    <div class="payout-col">
+                        <span class="payout-value payout-value--wrong">${{ displayValue || '0' }}</span>
+                        <span class="payout-col__label">Your Entry</span>
+                    </div>
+                    <div class="payout-col payout-col--right">
+                        <span class="payout-col__label">Correct Total</span>
+                        <span class="payout-value">${{ correctTotal }}</span>
+                    </div>
+                </template>
+            </div>
+
+            <button class="payout-btn" :class="`payout-btn--${status}`" @click="handleAction">
+                <span>{{ actionLabel }}</span>
+                <span class="material-symbols-outlined payout-btn__icon">{{ actionIcon }}</span>
             </button>
         </div>
     </section>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from "vue";
 
-const displayValue = ref(null);
-const emit = defineEmits(["submit"]);
+onMounted(() => window.addEventListener("keydown", onKeydown));
+onUnmounted(() => window.removeEventListener("keydown", onKeydown));
+const onKeydown = (e) => { if (e.key === "Enter") handleAction(); };
 
-const submitTotal = () => emit("submit", displayValue.value || 0);
+const props = defineProps({
+    status: { type: String, default: 'normal' },
+    correctTotal: { type: [Number, String], default: 0 }
+});
+
+const inputRef = ref(null);
+
+const focusInput = () => inputRef.value?.focus();
+
+onMounted(focusInput);
+watch(() => props.status, (val) => { if (val === 'normal') nextTick(focusInput); });
+
+const emit = defineEmits(["submit", "reset"]);
+const displayValue = ref("");
+
+const isNormal    = computed(() => props.status === 'normal');
+const statusIcon  = computed(() => props.status === 'correct' ? 'check_circle' : 'error');
+const actionLabel = computed(() => isNormal.value ? 'Submit' : 'Restart');
+const actionIcon  = computed(() => isNormal.value ? 'arrow_forward' : 'refresh');
+
+const handleAction = () => {
+    if (isNormal.value) emit("submit", displayValue.value || 0);
+    else {
+        displayValue.value = "";
+        emit("reset");
+    }
+};
 </script>
 
 <style scoped>
-.payout-container {
-    width: 100%;
-    flex: 0 0 auto;
-    margin-top: auto; /* Pushes it to the very bottom */
-}
-
 .payout-card {
-    background-color: #201f1f; /* surface-container */
+    background-color: #1a1a1a;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 24px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Increased from 16px */
+    gap: 16px;
     font-family: "Manrope", sans-serif;
+    transition: border-color 0.3s ease;
 }
 
-.input-section {
+/* Header */
+.payout-header {
     display: flex;
-    flex-direction: column;
-    gap: 12px; /* Increased from 8px */
+    justify-content: space-between;
+    align-items: center;
+    height: 24px;
 }
 
 .payout-label {
-    font-size: 13px; /* Increased from 10px */
-    font-weight: 800; /* Bumped weight */
-    color: #c1c8c2; /* on-surface-variant */
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    padding: 0 4px;
-}
-
-.input-wrapper {
-    position: relative;
-    flex-grow: 1;
-}
-
-.currency-symbol {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 28px; /* Increased from 24px */
-    font-weight: 700;
-    color: #95d4b3; /* primary emerald */
-    pointer-events: none;
-}
-
-.payout-input {
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(6, 64, 43, 0.5);
-    border-radius: 12px;
-    padding: 24px 24px 24px 52px; /* Adjusted padding to accommodate larger text */
-    font-size: 38px; /* Increased from 32px */
+    font-size: 13px;
     font-weight: 900;
-    color: #ecfdf5;
-    outline: none;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
-    font-family: "Manrope", sans-serif;
-}
-
-.payout-input:focus {
-    border-color: rgba(149, 212, 179, 0.5);
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* Submit Button and Icon Formatting */
-.submit-btn {
-    width: 100%;
-    padding: 18px; /* Increased from 16px */
-    border-radius: 12px;
-    background-color: #059669; /* emerald-600 */
-    color: #003824; /* on-primary */
-    font-family: "Manrope", sans-serif;
-    font-weight: 800;
-    font-size: 16px; /* Increased from 14px */
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    border: none;
-    cursor: pointer;
+    letter-spacing: 0.12em;
+    color: #e5e2e1;
+}
+
+.payout-status {
     display: flex;
     align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.state-correct .payout-status   { color: #34d399; }
+.state-incorrect .payout-status { color: #f87171; }
+.payout-status__icon            { font-size: 20px; }
+
+/* Payout Box */
+.payout-box {
+    min-height: 100px;
+    width: 100%;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 20px 24px;
+}
+
+.payout-box--normal {
+    background: rgba(229, 226, 225, 0.05);
+    border: 2px solid rgba(229, 226, 225, 0.3);
+}
+
+.payout-box--correct {
+    background: rgba(52, 211, 153, 0.05);
+    border: 2px solid rgba(52, 211, 153, 0.3);
+}
+
+.payout-box--incorrect {
+    background: rgba(248, 113, 113, 0.05);
+    border: 2px solid rgba(248, 113, 113, 0.2);
+    padding: 16px 24px;
+    justify-content: space-between;
+}
+
+/* Payout Value */
+.payout-value {
+    font-size: 38px;
+    font-weight: 900;
+}
+
+.payout-value--correct { color: #34d399; }
+
+.payout-value--wrong {
+    color: #f87171;
+    opacity: 0.6;
+}
+
+/* Input */
+.payout-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e5e2e1;
+    font-size: 38px;
+    font-weight: 900;
+    font-family: inherit;
+}
+
+/* Comparison Columns */
+.payout-col {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 12px; /* Fixed spacing between text and icon */
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.submit-btn:hover {
-    background-color: #10b981;
+.payout-col--right { align-items: flex-end; }
+
+.payout-col__label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #71717a;
+    letter-spacing: 0.05em;
 }
 
-.submit-btn:active {
-    transform: scale(0.98);
+/* Button */
+.payout-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 18px;
+    font-size: 16px;
+    font-weight: 900;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.1s ease;
 }
 
-.submit-icon {
-    font-size: 24px; /* Increased from 20px */
-    line-height: 1; /* Ensures icon box doesn't push button height */
-    /* This ensures the arrow looks sharp and weighted correctly */
-    font-variation-settings:
-        "FILL" 0,
-        "wght" 700,
-        "GRAD" 0,
-        "opsz" 24;
-}
+.payout-btn:active { transform: scale(0.98); }
 
-.no-spinner::-webkit-inner-spin-button,
-.no-spinner::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+.payout-btn__icon { font-size: 24px; }
 
-.no-spinner {
-    -moz-appearance: textfield; /* Firefox */
-}
+.payout-btn--normal    { background-color: #e5e2e1; color: #1a1a1a; }
+.payout-btn--correct   { background-color: #10b981; color: #1a1a1a; }
+.payout-btn--incorrect { background-color: #f87171; color: #1a1a1a; }
 </style>
