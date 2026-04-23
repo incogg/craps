@@ -30,4 +30,10 @@ body {
     align-items: center;
     width: 100%;
 }
+
+@media (max-width: 768px) {
+    #app {
+        padding-bottom: 75%;
+    }
+}
 </style>
