@@ -1,38 +1,41 @@
-# craps
+# Dealer Payout Training
 
-This template should help get you started developing with Vue 3 in Vite.
+![Home Screen](assets/Home%20Screen.png)
 
-## Recommended IDE Setup
+A static web tool for casino dealers to drill payout math for **Craps**, **Roulette**, and **Baccarat**.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## How it works
 
-## Recommended Browser Setup
+1. A random bets are generated and shown on the table layout
+2. You calculate the correct payout mentally
+3. Type your answer and submit
+4. Correct/incorrect feedback is shown, with the right payout revealed if you missed it
+5. Tap "Next Round" for a new scenario
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Games
 
-## Customize configuration
+| Game | Status | Coverage |
+|---|---|---|
+| Craps | Live | Horn bets (Any Seven, Any Craps, Horn High, Horn numbers) |
+| Roulette | Coming soon | Inside bets |
+| Baccarat | Coming soon | Dragon/Tiger |
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Stack
 
-## Project Setup
+- **Vue 3** (Composition API) + **Vue Router**
+- **Vite** build tooling
 
-```sh
+## Setup
+
+Requires Node `^20.19.0` or `>=22.12.0`.
+
+```bash
 npm install
+npm run dev       # dev server with HMR
+npm run build     # production build → dist/
+npm run preview   # preview the production build locally
 ```
 
-### Compile and Hot-Reload for Development
+## Difficulty
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+A difficulty dock on each game page adjusts the wager range used when generating scenarios. Selection is persisted to `localStorage`.
