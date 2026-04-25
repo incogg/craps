@@ -21,7 +21,9 @@ function onSubmit() {
 }
 
 function onKeydown(e) {
-  if (e.key === 'Enter' && props.status === 'idle') onSubmit()
+  if (e.key !== 'Enter') return
+  if (props.status === 'idle') onSubmit()
+  else emit('next')
 }
 </script>
 
@@ -37,7 +39,7 @@ function onKeydown(e) {
           v-model="inputVal"
           placeholder="0"
           inputmode="numeric"
-          :disabled="status !== 'idle'"
+          :readonly="status !== 'idle'"
           @keydown="onKeydown"
           ref="inputEl"
         />

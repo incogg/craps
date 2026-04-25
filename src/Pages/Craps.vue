@@ -5,7 +5,7 @@ import CrapsResult from "@/Craps/Result.vue";
 import CrapsLayout from "@/Craps/Layout.vue";
 import PayoutArea from "@/Common/PayoutArea.vue";
 import DiffDock from "@/Common/DiffDock.vue";
-import generateHornBets from "@/Craps/hornBetGenerator";
+import generateHornBets, { UNIT_VALUE } from "@/Craps/hornBetGenerator";
 import { useDifficulty } from "@/Common/useDifficulty";
 
 const BETS = [
@@ -28,6 +28,27 @@ const COMBINATIONS = {
     11: [[5,6], [6,5]],
     12: [[6,6]],
 }
+const ODDS = {
+    2: 33,
+    3: 16,
+    11: 16,
+    12: 33,
+}
+const CORRECT_MESSAGES = [
+  'Well done.',
+  'Correct.',
+  'Nice work.',
+  'Spot on.',
+  'That\'s the one.',
+  'Right on the money.',
+  'You\'re not just a pretty face.',
+  'Calculator who?',
+  'Textbook.',
+  'Boxy approves.',
+  'Sharp.',
+  'You\'ve done this before.',
+]
+
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)] }
 
 const d1 = ref(1);
@@ -38,6 +59,10 @@ const bets = ref({});
 const dist = ref({});
 const { difficulty } = useDifficulty();
 
+const status = ref('idle');
+const correct = ref(0);
+const feedbackHtml = ref('');
+
 function reset() {
     const roll = pick(ROLLS);
     [d1.value, d2.value] = pick(COMBINATIONS[roll]);
@@ -46,12 +71,24 @@ function reset() {
 
 watch(difficulty, reset);
 
-function onSubmit() {
-    reset();
+function onSubmit(value) {
+    let units = 0;
+    ROLLS.forEach((n) => {
+        if (n == sum.value) units += dist.value[n] * ODDS[n];
+        else units -= dist.value[n];
+    });
+
+    correct.value = units * UNIT_VALUE;
+    const wasCorrect = value == correct.value;
+    status.value = wasCorrect ? 'correct' : 'incorrect';
+    if (!wasCorrect) feedbackHtml.value = `The correct payout was <span class='hi'>$${correct.value}</span>`;
+    else feedbackHtml.value = pick(CORRECT_MESSAGES);
+    console.log(dist.value, correct.value);
 }
 
 function onNext() {
-
+    status.value = 'idle';
+    reset();
 }
 
 reset();
