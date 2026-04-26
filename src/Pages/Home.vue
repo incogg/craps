@@ -9,16 +9,13 @@ const GAMES = {
   baccarat: {
     title: 'BACCARAT',
     display: 'Baccarat',
-    focus: 'ALL BETS',
-    desc: 'Dragon Tiger payouts: even money on dragon or tiger, with tie and suited tie side bets.',
+    focus: 'SIDE BETS',
+    desc: 'Dragon Tiger optional bets — small and big dragon, tiger variants, ties, and tiered payouts.',
     drills: [
-      'Dragon / Tiger',
-      'Tie',
-      'Suited Tie',
+      { name: 'Optionals', to: { path: '/baccarat', query: { scenario: 'optionals' } } },
     ],
-    icon: `<svg width="20" height="20" viewBox="0 0 20 20" style="--icon-sw:1" xmlns="http://www.w3.org/2000/svg"><rect x="1.8" y="8" width="2" height="4" rx="0.4"/><rect x="4.1" y="8" width="2" height="4" rx="0.4"/><rect x="6.4" y="8" width="2" height="4" rx="0.4"/><rect x="9.6" y="8" width="2" height="4" rx="0.4"/><rect x="11.9" y="8" width="2" height="4" rx="0.4"/><rect x="14.2" y="9" width="4" height="2" rx="0.4"/></svg>`,
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" style="--icon-sw:1.4" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="5.5" width="8" height="11" rx="1.2" transform="rotate(-12 7.5 11)"/><rect x="8.5" y="3.5" width="8" height="11" rx="1.2" transform="rotate(12 12.5 9)"/></svg>`,
     route: '/baccarat',
-    disabled: true,
   },
   roulette: {
     title: 'ROULETTE',

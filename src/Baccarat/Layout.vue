@@ -1,18 +1,41 @@
 <script setup>
 defineProps({
-  bets: { type: Object, default: () => ({}) }
+  bets:        { type: Object, default: () => ({}) },
+  activeBetId: { type: String, default: '' },
+  dtTier:      { type: Number, default: 0 },
 })
 
 const DT_CELLS = [
-  { id: 'dragon-tiger', label: 'Dragon Tiger', ratio: '40 TO 1', bg: 'bg-dragon' },
-  { id: 'dragon-tie',   label: 'Dragon Tie',   ratio: '40 TO 1', bg: 'bg-dragon' },
-  { id: 'tiger',        label: 'Tiger',         ratio: '4 TO 1',  bg: 'bg-tiger'  },
-  { id: 'big-dragon',   label: 'Big Dragon',    ratio: '30 TO 1', bg: 'bg-dragon' },
-  { id: 'dt-tie',       label: 'Tie',           ratio: '8 TO 1',  bg: 'bg-tie'    },
-  { id: 'big-tiger',    label: 'Big Tiger',     ratio: '30 TO 1', bg: 'bg-tiger'  },
-  { id: 'small-dragon', label: 'Small Dragon',  ratio: '30 TO 1', bg: 'bg-dragon' },
-  { id: 'tiger-tie',    label: 'Tiger Tie',     ratio: '35 TO 1', bg: 'bg-tiger'  },
-  { id: 'small-tiger',  label: 'Small Tiger',   ratio: '8 TO 1',  bg: 'bg-tiger'  },
+  { id: 'dragon-tiger', label: 'Dragon Tiger', bg: 'bg-dragon', tiers: [
+    { odds: '30:1',  cond: '4-card', tier: 30  },
+    { odds: '40:1',  cond: '5-card', tier: 40  },
+    { odds: '100:1', cond: '6-card', tier: 100 },
+  ]},
+  { id: 'dragon-tie',   label: 'Dragon Tie',   bg: 'bg-dragon', tiers: [
+    { odds: '42:1', cond: 'Standard', tier: 42 },
+  ]},
+  { id: 'tiger',        label: 'Tiger',         bg: 'bg-tiger',  tiers: [
+    { odds: '12:1', cond: '2-card', tier: 12 },
+    { odds: '22:1', cond: '3-card', tier: 22 },
+  ]},
+  { id: 'big-dragon',   label: 'Big Dragon',    bg: 'bg-dragon', tiers: [
+    { odds: '30:1', cond: 'Standard', tier: 30 },
+  ]},
+  { id: 'dt-tie',       label: 'Tie',           bg: 'bg-tie',    tiers: [
+    { odds: '8:1', cond: 'Standard', tier: 8 },
+  ]},
+  { id: 'big-tiger',    label: 'Big Tiger',     bg: 'bg-tiger',  tiers: [
+    { odds: '55:1', cond: 'Standard', tier: 55 },
+  ]},
+  { id: 'small-dragon', label: 'Small Dragon',  bg: 'bg-dragon', tiers: [
+    { odds: '15:1', cond: 'Standard', tier: 15 },
+  ]},
+  { id: 'tiger-tie',    label: 'Tiger Tie',     bg: 'bg-tiger',  tiers: [
+    { odds: '45:1', cond: 'Standard', tier: 45 },
+  ]},
+  { id: 'small-tiger',  label: 'Small Tiger',   bg: 'bg-tiger',  tiers: [
+    { odds: '22:1', cond: 'Standard', tier: 22 },
+  ]},
 ]
 </script>
 
@@ -24,20 +47,24 @@ const DT_CELLS = [
       <div class="main-bet-row banker-row">
         <div class="row-left">
           <div class="row-name">Banker</div>
+        </div>
+        <div class="row-right">
           <div class="chip" :class="{ active: (bets['banker'] || 0) > 0 }">
             ${{ bets['banker'] || 0 }}
           </div>
+          <div class="row-ratio">0.95 TO 1</div>
         </div>
-        <div class="row-ratio">0.95 TO 1</div>
       </div>
       <div class="main-bet-row player-row">
         <div class="row-left">
           <div class="row-name">Player</div>
+        </div>
+        <div class="row-right">
           <div class="chip" :class="{ active: (bets['player'] || 0) > 0 }">
             ${{ bets['player'] || 0 }}
           </div>
+          <div class="row-ratio">1 TO 1</div>
         </div>
-        <div class="row-ratio">1 TO 1</div>
       </div>
     </div>
 
@@ -52,7 +79,16 @@ const DT_CELLS = [
           ${{ bets[cell.id] || 0 }}
         </div>
         <div class="dt-cell-name">{{ cell.label }}</div>
-        <div class="dt-cell-ratio">{{ cell.ratio }}</div>
+        <div class="dt-tier-list">
+          <div
+            v-for="t in cell.tiers" :key="t.tier"
+            class="dt-tier"
+            :class="{ active: activeBetId === cell.id && dtTier === t.tier }"
+          >
+            <span class="tier-odds">{{ t.odds }}</span>
+            <span class="tier-cond">{{ t.cond }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -75,11 +111,10 @@ const DT_CELLS = [
   justify-content: space-between;
   padding: 14px 18px;
   border-bottom: 1px solid rgba(200,180,240,0.09);
-  position: relative;
 }
 .banker-row { background: rgba(91,74,158,0.35); }
 .player-row { background: rgba(91,74,158,0.15); }
-.row-left { display: flex; align-items: center; gap: 12px; }
+.row-left  { display: flex; align-items: center; gap: 12px; }
 .row-right { display: flex; align-items: center; gap: 14px; }
 .row-name {
   font-size: 19px;
@@ -105,7 +140,7 @@ const DT_CELLS = [
   padding: 0 10px;
   border-radius: 999px;
   background: rgba(255,255,255,0.08);
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.45);
   font-family: 'Outfit', sans-serif;
   font-size: 11px;
   font-weight: 900;
@@ -117,7 +152,7 @@ const DT_CELLS = [
   transition: all 200ms ease;
 }
 .chip.active {
-  background: #e9a93a;
+  background: #e9c349;
   color: #1a1200;
   box-shadow: 0 0 16px rgba(233,195,73,0.45);
 }
@@ -128,15 +163,14 @@ const DT_CELLS = [
   grid-template-columns: 1fr 1fr 1fr;
 }
 .dt-cell {
-  padding: 18px 10px 14px;
-  min-height: 100px;
+  padding: 16px 10px 14px;
+  min-height: 116px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  gap: 7px;
+  justify-content: flex-start;
+  gap: 8px;
   border: 1px solid rgba(0,0,0,0.18);
-  position: relative;
 }
 .bg-dragon { background: #5b4a9e; }
 .bg-tiger  { background: #c98a2a; }
@@ -151,13 +185,44 @@ const DT_CELLS = [
   color: rgba(255,255,255,0.75);
   text-align: center;
   line-height: 1.35;
+  margin-top: 2px;
 }
-.dt-cell-ratio {
+
+/* Tiered payout list */
+.dt-tier-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  width: 100%;
+  padding-top: 2px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  margin-top: auto;
+  min-height: 52px;
+  justify-content: flex-end;
+}
+.dt-tier {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  color: rgba(255,255,255,0.55);
+}
+.tier-odds {
+  color: rgba(255,255,255,0.85);
+  font-weight: 700;
+  min-width: 38px;
+  text-align: right;
+}
+.tier-cond {
+  color: rgba(255,255,255,0.42);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 </style>
