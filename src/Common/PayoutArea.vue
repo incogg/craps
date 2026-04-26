@@ -38,7 +38,7 @@ function onKeydown(e) {
           class="answer-input"
           v-model="inputVal"
           placeholder="0"
-          inputmode="numeric"
+          inputmode="decimal"
           :readonly="status !== 'idle'"
           @keydown="onKeydown"
           ref="inputEl"

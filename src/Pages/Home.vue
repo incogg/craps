@@ -41,8 +41,8 @@ const GAMES = {
     focus: 'CENTER ACTION',
     desc: 'Center action practice — horn bets and hardways.',
     drills: [
-      // 'Hardways',
-      'Horns',
+      { name: 'Horns',    to: { path: '/craps', query: { scenario: 'horns' } } },
+      { name: 'Hardways', to: { path: '/craps', query: { scenario: 'hardways' } } },
     ],
     icon: `<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="14" height="14" rx="2"/><circle class="dot" cx="6.5" cy="6.5" r="1"/><circle class="dot" cx="13.5" cy="6.5" r="1"/><circle class="dot" cx="10" cy="10" r="1"/><circle class="dot" cx="6.5" cy="13.5" r="1"/><circle class="dot" cx="13.5" cy="13.5" r="1"/></svg>`,
     route: '/craps',
@@ -136,11 +136,11 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
           <span class="drills-label">SCENARIOS</span>
           <RouterLink
             v-for="d in data.drills"
-            :key="d"
+            :key="d.name"
             class="drill-btn"
-            :to="data.route"
+            :to="d.to || data.route"
           >
-            <span class="drill-btn-name">{{ d }}</span>
+            <span class="drill-btn-name">{{ d.name }}</span>
             <span class="drill-btn-suffix">→</span>
           </RouterLink>
         </div>
