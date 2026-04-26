@@ -44,6 +44,21 @@ function randomWager(bet, difficulty) {
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)] }
 
+const CORRECT_MESSAGES = [
+    'Well done.',
+    'Correct.',
+    'Nice work.',
+    'Spot on.',
+    "That's the one.",
+    'Right on the money.',
+    "You're not just a pretty face.",
+    'Calculator who?',
+    'Textbook.',
+    'Boxy approves.',
+    'Sharp.',
+    "You've done this before.",
+]
+
 function generate(difficulty) {
     const bet   = pick(BETS)
     const wager = randomWager(bet, difficulty)
@@ -74,7 +89,11 @@ export default {
         return round.payout
     },
 
-    correctDetail(round, correct) {
+    correctDetail() {
+        return pick(CORRECT_MESSAGES)
+    },
+
+    wrongDetail(round, correct) {
         return `${round.bet.label} · $${round.wager} × ${round.bet.ratio} = <span class='hi'>$${correct}</span>`
     },
 }

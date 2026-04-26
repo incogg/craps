@@ -47,7 +47,9 @@ function onSubmit(value) {
     status.value     = wasCorrect ? 'correct' : 'wrong';
     feedbackHtml.value = wasCorrect
         ? currentScenario.value.correctDetail(round.value, correct)
-        : `The correct payout was <span class='hi'>$${correct}</span>`;
+        : currentScenario.value.wrongDetail
+            ? currentScenario.value.wrongDetail(round.value, correct)
+            : `The correct payout was <span class='hi'>$${correct}</span>`
 }
 
 function onNext() {

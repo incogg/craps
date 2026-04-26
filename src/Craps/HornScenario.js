@@ -166,4 +166,67 @@ export default {
     correctDetail() {
         return randChoice(CORRECT_MESSAGES)
     },
+
+    wrongDetail(round, correct) {
+        const sum = round.d1 + round.d2
+
+        const HIGH_NUM = { hi2: 2, hi3: 3, hi11: 11, hi12: 12 }
+        const STR_NUM  = { two: 2, three: 3, eleven: 11, twelve: 12 }
+        const LABELS   = {
+            horn: 'HORN', hi2: 'HH 2', hi3: 'HH 3', hi11: 'HH 11', hi12: 'HH 12',
+            two: 'TWO', three: 'THREE', eleven: 'ELEVEN', twelve: 'TWELVE',
+        }
+        const ORDER = ['horn', 'hi2', 'hi3', 'hi11', 'hi12', 'two', 'three', 'eleven', 'twelve']
+
+        const td = (content, style = '') =>
+            `<td style="padding:2px 14px 2px 0;white-space:nowrap${style ? ';' + style : ''}">${content}</td>`
+
+        const rows = []
+        for (const id of ORDER) {
+            const amount = round.bets[id]
+            if (!amount) continue
+
+            let net
+            if (id === 'horn') {
+                const u = amount / 20
+                net = (sum === 2 || sum === 12) ? u * 150 : u * 65
+            } else if (id in HIGH_NUM) {
+                const highNum = HIGH_NUM[id]
+                const u = amount / 25
+                if (sum === 2 || sum === 12) {
+                    net = highNum === sum ? u * 315 : u * 145
+                } else {
+                    net = highNum === sum ? u * 145 : u * 60
+                }
+            } else if (id in STR_NUM) {
+                const num = STR_NUM[id]
+                net = num === sum ? (amount / 5) * ODDS[sum] * 5 : -amount
+            } else {
+                continue
+            }
+
+            const sign     = net >= 0 ? '+' : '−'
+            const color    = net >= 0 ? 'var(--correct)' : 'var(--wrong)'
+            const netStr   = `${sign}$${Math.abs(net)}`
+            rows.push(`<tr>
+                ${td(LABELS[id])}
+                ${td(`$${amount}`)}
+                ${td('→', 'color:rgba(255,255,255,0.3);padding-right:10px')}
+                ${td(netStr, `color:${color}`)}
+            </tr>`)
+        }
+
+        const sepRow = `<tr><td colspan="4" style="padding:6px 0 4px">
+            <div style="border-top:1px solid rgba(255,255,255,0.12)"></div>
+        </td></tr>`
+
+        const totalRow = `<tr>
+            ${td('CORRECT PAYOUT', 'color:rgba(255,255,255,0.6)')}
+            ${td('')}
+            ${td('')}
+            ${td(`$${correct}`, 'color:var(--correct)')}
+        </tr>`
+
+        return `<table style="border-collapse:collapse">${rows.join('')}${sepRow}${totalRow}</table>`
+    },
 }
